@@ -1,5 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import InteractiveMap from "./InteractiveMap";
 
 const InteractiveMapSection = () => {
   const ancientRoutes = [
@@ -87,12 +89,27 @@ const InteractiveMapSection = () => {
           <p className="font-roboto text-muted-foreground mb-6">
             Modern journeys trace echoes of ancient commerce and culture
           </p>
-          <Button 
-            size="lg" 
-            className="bg-accent hover:bg-accent/90 text-accent-foreground font-roboto px-8 py-3"
-          >
-            Explore Full Interactive Map
-          </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button 
+                size="lg" 
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-roboto px-8 py-3"
+              >
+                Explore Full Interactive Map
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="max-w-6xl w-[95vw] h-[80vh] p-6">
+              <DialogHeader>
+                <DialogTitle className="font-playfair text-2xl">Interactive Route Comparison</DialogTitle>
+                <DialogDescription>
+                  Explore the ancient Silk Road routes alongside Nick Middleton's modern pilgrimage path
+                </DialogDescription>
+              </DialogHeader>
+              <div className="flex-1 mt-4">
+                <InteractiveMap />
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </section>
