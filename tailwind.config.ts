@@ -32,6 +32,10 @@ export default {
 					DEFAULT: 'hsl(var(--secondary))',
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
+				spiritual: {
+					DEFAULT: 'hsl(var(--spiritual))',
+					foreground: 'hsl(var(--spiritual-foreground))'
+				},
 				destructive: {
 					DEFAULT: 'hsl(var(--destructive))',
 					foreground: 'hsl(var(--destructive-foreground))'
@@ -62,6 +66,20 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				}
+			},
+			fontFamily: {
+				'playfair': ['Playfair Display', 'serif'],
+				'roboto': ['Roboto', 'sans-serif'],
+			},
+			backgroundImage: {
+				'gradient-sand': 'var(--gradient-sand)',
+				'gradient-sunset': 'var(--gradient-sunset)',
+				'gradient-mountains': 'var(--gradient-mountains)',
+				'gradient-ancient': 'var(--gradient-ancient)',
+			},
+			boxShadow: {
+				'warm': 'var(--shadow-warm)',
+				'glow': 'var(--shadow-glow)',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
