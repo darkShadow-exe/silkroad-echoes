@@ -1,14 +1,6 @@
 const Footer = () => {
-  const references = [
-    "Hornbill Unit 8 – Nick Middleton, \"Silk Road\"",
-    "UNESCO Silk Road Interactive Map",
-    "Khan Academy – Silk Road Article",
-    "Carolina Asia Center – Lesson Plans",
-    "Wikimedia Commons – Tibet and Silk Road imagery"
-  ];
-
-  return (
-    <footer className="bg-primary text-primary-foreground py-16">
+  const references = ["Hornbill Unit 8 – Nick Middleton, \"Silk Road\"", "UNESCO Silk Road Interactive Map", "Khan Academy – Silk Road Article", "Carolina Asia Center – Lesson Plans", "Wikimedia Commons – Tibet and Silk Road imagery"];
+  return <footer className="bg-primary text-primary-foreground py-16">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           {/* About */}
@@ -23,12 +15,10 @@ const Footer = () => {
           <div>
             <h3 className="font-playfair text-2xl font-bold mb-6">References & Bibliography</h3>
             <ul className="space-y-2 font-roboto text-sm opacity-90">
-              {references.map((ref, index) => (
-                <li key={index} className="flex items-start">
+              {references.map((ref, index) => <li key={index} className="flex items-start">
                   <span className="w-2 h-2 bg-accent rounded-full mr-3 mt-2 flex-shrink-0"></span>
                   {ref}
-                </li>
-              ))}
+                </li>)}
             </ul>
           </div>
 
@@ -48,13 +38,9 @@ const Footer = () => {
 
         {/* Bottom Section */}
         <div className="border-t border-primary-foreground/20 mt-12 pt-8 text-center">
-          <p className="font-roboto opacity-75">
-            © 2024 Silk Road Project. Exploring the intersection of history, culture, and personal journeys.
-          </p>
+          <p className="font-roboto opacity-75">© 2025 Krish Kumar</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
