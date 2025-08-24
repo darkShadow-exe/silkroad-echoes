@@ -2,14 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 
 const InteractiveMap = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
-  const [mapboxToken, setMapboxToken] = useState('');
-  const [showTokenInput, setShowTokenInput] = useState(true);
+  const mapboxToken = 'pk.eyJ1Ijoia3Jpc2hrIiwiYSI6ImNtZXBsdHFmY2FnZzQya3M4YTF2a3VmNjEifQ.9DBiFhLxBHN7AhebTtgZMw';
   const [activeRoute, setActiveRoute] = useState<'ancient' | 'modern' | 'both'>('both');
 
   // Ancient Silk Road coordinates
@@ -141,10 +138,10 @@ const InteractiveMap = () => {
   };
 
   useEffect(() => {
-    if (!showTokenInput && mapboxToken && mapContainer.current) {
+    if (mapContainer.current) {
       initializeMap();
     }
-  }, [showTokenInput, mapboxToken]);
+  }, []);
 
   // Handle window resize
   useEffect(() => {
@@ -158,15 +155,9 @@ const InteractiveMap = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleTokenSubmit = () => {
-    if (mapboxToken.trim()) {
-      setShowTokenInput(false);
-    }
-  };
-
   const toggleRoute = (route: 'ancient' | 'modern' | 'both') => {
     setActiveRoute(route);
-    if (map.current && !showTokenInput) {
+    if (map.current) {
       // Remove existing layers
       ['ancient', 'modern'].forEach(routeId => {
         if (map.current?.getLayer(`${routeId}-route-line`)) {
@@ -186,34 +177,6 @@ const InteractiveMap = () => {
       }, 100);
     }
   };
-
-  if (showTokenInput) {
-    return (
-      <div className="flex flex-col items-center justify-center p-8 bg-card rounded-lg border">
-        <h3 className="text-lg font-semibold mb-4">Enter Mapbox Public Token</h3>
-        <p className="text-sm text-muted-foreground mb-4 text-center max-w-md">
-          To display the interactive map, please enter your Mapbox public token. 
-          You can get one at <a href="https://mapbox.com/" target="_blank" rel="noopener noreferrer" className="text-primary underline">mapbox.com</a>
-        </p>
-        <div className="space-y-4 w-full max-w-sm">
-          <div>
-            <Label htmlFor="mapbox-token">Mapbox Public Token</Label>
-            <Input
-              id="mapbox-token"
-              type="text"
-              placeholder="pk.eyJ1IjoieW91ci11c2VybmFtZSI..."
-              value={mapboxToken}
-              onChange={(e) => setMapboxToken(e.target.value)}
-              className="mt-1"
-            />
-          </div>
-          <Button onClick={handleTokenSubmit} className="w-full">
-            Load Interactive Map
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="relative w-full h-[600px] rounded-lg overflow-hidden border">
