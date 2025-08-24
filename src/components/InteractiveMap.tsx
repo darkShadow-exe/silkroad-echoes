@@ -27,10 +27,11 @@ const InteractiveMap = () => {
   // Middleton's pilgrimage route
   const modernRoute = [
     { name: "Ravu", coords: [81.5311, 30.2653], description: "Journey starting point" },
-    { name: "Hor", coords: [81.4806, 30.7417], description: "Transit point" },
+    { name: "Hor", coords: [81.4806, 30.7417], description: "Transit point along the route" },
+    { name: "Lake Manasarovar", coords: [81.4667, 30.6667], description: "Sacred lake pilgrimage site" },
     { name: "Darchen", coords: [81.4897, 30.4714], description: "Base camp for Mount Kailash" },
-    { name: "Mount Kailash", coords: [81.3119, 31.0669], description: "Sacred mountain circumambulation" },
-    { name: "Tirthapuri", coords: [81.1667, 31.0833], description: "Hot springs pilgrimage site" }
+    { name: "Serling Gompa", coords: [81.2500, 30.9500], description: "Remote monastery" },
+    { name: "Mount Kailash", coords: [81.3119, 31.0669], description: "Sacred mountain circumambulation" }
   ];
 
   const initializeMap = () => {
@@ -144,6 +145,18 @@ const InteractiveMap = () => {
       initializeMap();
     }
   }, [showTokenInput, mapboxToken]);
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (map.current) {
+        map.current.resize();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleTokenSubmit = () => {
     if (mapboxToken.trim()) {
