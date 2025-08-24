@@ -34,42 +34,51 @@ const InteractiveMap = () => {
   ];
 
   const initializeMap = () => {
-    if (!mapContainer.current || !mapboxToken) return;
+    if (!mapContainer.current || !mapboxToken) {
+      console.log('Map container or token missing');
+      return;
+    }
 
-    mapboxgl.accessToken = mapboxToken;
-    
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/satellite-streets-v12',
-      projection: 'globe',
-      zoom: 2,
-      center: [75, 35],
-      pitch: 30,
-    });
-
-    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
-    map.current.scrollZoom.disable();
-
-    map.current.on('style.load', () => {
-      // Add atmosphere
-      map.current?.setFog({
-        color: 'rgb(186, 210, 235)',
-        'high-color': 'rgb(36, 92, 223)',
-        'horizon-blend': 0.02,
-        'space-color': 'rgb(11, 11, 25)',
-        'star-intensity': 0.6
+    try {
+      mapboxgl.accessToken = mapboxToken;
+      console.log('Initializing map with token:', mapboxToken.substring(0, 10) + '...');
+      
+      map.current = new mapboxgl.Map({
+        container: mapContainer.current,
+        style: 'mapbox://styles/mapbox/streets-v12', // Changed to more reliable style
+        projection: 'mercator', // Changed from globe to mercator for better compatibility
+        zoom: 3,
+        center: [75, 35],
+        pitch: 0, // Reduced pitch for better visibility
       });
 
-      // Add ancient route
-      if (activeRoute === 'ancient' || activeRoute === 'both') {
-        addRouteToMap('ancient', ancientRoute, '#D4AF37', 'Ancient Silk Road');
-      }
+      map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+      map.current.scrollZoom.enable(); // Enable scroll zoom for better UX
 
-      // Add modern route  
-      if (activeRoute === 'modern' || activeRoute === 'both') {
-        addRouteToMap('modern', modernRoute, '#8B4513', "Middleton's Journey");
-      }
-    });
+      // Add error handling
+      map.current.on('error', (e) => {
+        console.error('Mapbox error:', e);
+      });
+
+      map.current.on('load', () => {
+        console.log('Map loaded successfully');
+        
+        // Add routes after map loads
+        setTimeout(() => {
+          // Add ancient route
+          if (activeRoute === 'ancient' || activeRoute === 'both') {
+            addRouteToMap('ancient', ancientRoute, '#D4AF37', 'Ancient Silk Road');
+          }
+
+          // Add modern route  
+          if (activeRoute === 'modern' || activeRoute === 'both') {
+            addRouteToMap('modern', modernRoute, '#8B4513', "Middleton's Journey");
+          }
+        }, 1000); // Wait for map to fully initialize
+      });
+    } catch (error) {
+      console.error('Error initializing map:', error);
+    }
   };
 
   const addRouteToMap = (routeId: string, route: typeof ancientRoute, color: string, title: string) => {
@@ -235,7 +244,11 @@ const InteractiveMap = () => {
         </div>
       </div>
 
-      <div ref={mapContainer} className="w-full h-full" />
+      <div 
+        ref={mapContainer} 
+        className="w-full h-full" 
+        style={{ minHeight: '600px', position: 'relative' }}
+      />
     </div>
   );
 };
