@@ -139,10 +139,15 @@ const InteractiveMap = () => {
     });
   };
 
+  useEffect(() => {
+    if (!showTokenInput && mapboxToken && mapContainer.current) {
+      initializeMap();
+    }
+  }, [showTokenInput, mapboxToken]);
+
   const handleTokenSubmit = () => {
     if (mapboxToken.trim()) {
       setShowTokenInput(false);
-      initializeMap();
     }
   };
 
